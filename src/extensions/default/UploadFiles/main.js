@@ -10,7 +10,9 @@ define(function (require, exports, module) {
     var CMD_UPLOAD_FILES_ID     = "bramble.showUploadFiles";
 
     function showUploadFiles() {
-        return UploadFilesDialog.show();
+        if(!$(".upload-files-dialog")[0]) {
+           return UploadFilesDialog.show();
+        }
     }
 
     function addCommand() {
