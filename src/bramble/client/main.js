@@ -232,7 +232,7 @@ define([
             };
         };
 
-        TogetherJS.hub.on('data', function (data) {
+        window.TogetherJS.hub.on('data', function (data) {
             self.codemirrorRelay(data);
         });
 
@@ -351,8 +351,8 @@ define([
                     } else if (eventName === "autoUpdateChange") {
                         _state.autoUpdate = data.autoUpdate;
                     } else if (eventName === "CodeMirrorChange") {
-                        if (TogetherJS.running) {
-                            TogetherJS.send({
+                        if (window.TogetherJS.running) {
+                            window.TogetherJS.send({
                               type: 'data',
                               delta: data.delta
                             });
