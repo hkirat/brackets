@@ -314,6 +314,7 @@ define(function (require, exports, module) {
 
         // Attach to document: add ref & handlers
         this.document = document;
+        this.token = true
         document.addRef();
 
         if (container.jquery) {
@@ -886,6 +887,18 @@ define(function (require, exports, module) {
         this._updateHiddenLines();
     };
 
+    Editor.prototype.mutualExcluse = function (f, changeList) {
+        if (this.token) {
+            this.token = false
+            try {
+                f(changeList)
+            } catch (e) {
+            this.token = true
+            throw new Error(e)
+        }
+        this.token = true
+      }
+    }
     /**
      * Responds to changes in the CodeMirror editor's text, syncing the changes to the Document.
      * There are several cases where we want to ignore a CodeMirror change:
@@ -929,7 +942,7 @@ define(function (require, exports, module) {
         // whereas the "change" event should be listened to on the document. Also the
         // Editor dispatches a change event before this event is dispatched, because
         // CodeHintManager needs to hook in here when other things are already done.
-        brambleEvents.triggerCodeMirrorChange(changeList);
+        this.mutualExcluse(brambleEvents.triggerCodeMirrorChange, changeList);
         this.trigger("editorChange", this, changeList);
     };
 
