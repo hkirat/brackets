@@ -196,9 +196,9 @@ define(function (require, exports, module) {
             break;
         case "CODEMIRROR_RELAY":
             var editor = EditorManager.getActiveEditor();
+                var delta = args[0][0];
             editor.mutualExcluse(function() {
                 var cm = editor._codeMirror;
-                var delta = args[0][0];
                 var start = cm.indexFromPos(delta.from);
                  // apply the delete operation first
                 if (delta.removed.length > 0) {
