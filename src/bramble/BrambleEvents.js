@@ -77,4 +77,9 @@ define(function (require, exports, module) {
     exports.triggerProjectSaved = function(){
         exports.trigger("bramble:projectSaved");
     };
+
+    exports.triggerCodeMirrorChange = function(enabled) {
+        exports.trigger("bramble:CodeMirrorChange", enabled);
+    };
+
 });

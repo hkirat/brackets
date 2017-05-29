@@ -77,7 +77,8 @@ define(function (require, exports, module) {
         ValidationUtils    = require("utils/ValidationUtils"),
         ViewUtils          = require("utils/ViewUtils"),
         MainViewManager    = require("view/MainViewManager"),
-        _                  = require("thirdparty/lodash");
+        _                  = require("thirdparty/lodash"),
+        brambleEvents	   = require("bramble/BrambleEvents");
 
     /** Editor preferences */
     var CLOSE_BRACKETS      = "closeBrackets",
@@ -928,6 +929,7 @@ define(function (require, exports, module) {
         // whereas the "change" event should be listened to on the document. Also the
         // Editor dispatches a change event before this event is dispatched, because
         // CodeHintManager needs to hook in here when other things are already done.
+        brambleEvents.triggerCodeMirrorChange(changeList);
         this.trigger("editorChange", this, changeList);
     };
 

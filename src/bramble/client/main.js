@@ -232,6 +232,10 @@ define([
             };
         };
 
+        TogetherJS.hub.on('data', function (data) {
+            self.codemirrorRelay(data);
+        });
+
         if (typeof div === "object"  && !(div instanceof HTMLElement)) {
             options = div;
             div = null;
@@ -346,8 +350,14 @@ define([
                         _state.allowAutocomplete = data.value;
                     } else if (eventName === "autoUpdateChange") {
                         _state.autoUpdate = data.autoUpdate;
+                    } else if (eventName === "CodeMirrorChange") {
+                        if (TogetherJS.running) {
+                            TogetherJS.send({
+                              type: 'data',
+                              delta: data.delta
+                            });
+                        }
                     }
-
                     debug("triggering remote event", eventName, data);
                     self.trigger(eventName, [data]);
                 }
@@ -1011,6 +1021,9 @@ define([
         this._executeRemoteCommand({commandCategory: "bramble", command: "BRAMBLE_SHOW_UPLOAD_FILES_DIALOG"}, callback);
     };
 
+    BrambleProxy.prototype.codemirrorRelay = function(data, callback) {
+        this._executeRemoteCommand({commandCategory: "bramble", command: "CODEMIRROR_RELAY", args: [data.delta]}, callback);
+    };
     BrambleProxy.prototype.addNewFile = function(options, callback) {
         // We only support writing textual data this way
         if(typeof(options.contents) !== "string") {

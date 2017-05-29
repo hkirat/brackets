@@ -194,6 +194,30 @@ define(function (require, exports, module) {
             skipCallback = true;
             CommandManager.execute("bramble.addCodeSnippet", args[0]).always(callback);
             break;
+        case "CODEMIRROR_RELAY":
+            var editor = EditorManager.getActiveEditor();
+            var cm = editor._codeMirror;
+            var delta = args[0][0];
+            var start = cm.indexFromPos(delta.from)
+             // apply the delete operation first
+            if (delta.removed.length > 0) {
+               var delLength = 0
+               for (var i = 0; i < delta.removed.length; i++) {
+                 delLength += delta.removed[i].length;
+               }
+               // "enter" is also a character in our case
+               delLength += delta.removed.length - 1;
+                var from = cm.posFromIndex(start);
+                var to = cm.posFromIndex(start + delLength)
+                cm.replaceRange('', from, to)
+            }
+            // apply insert operation
+            var start = start;
+            var param = delta.text.join('\n');
+            var from = cm.posFromIndex(start)
+            var to = from
+            cm.replaceRange(param, from, to)
+            break;
         default:
             console.log('[Bramble] unknown command:', command);
             skipCallback = true;

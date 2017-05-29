@@ -65,6 +65,14 @@ define(function (require, exports, module) {
             });
         });
 
+        // Listen for changes to the Codemirror
+        BrambleEvents.on("bramble:CodeMirrorChange", function(e, delta) {
+            sendEvent({
+                type: "bramble:CodeMirrorChange",
+                delta: delta
+            });
+        });
+
         // Listen for user changing file content
         BrambleEvents.on("bramble:projectDirty", function(e, path) {
             sendEvent({
