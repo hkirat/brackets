@@ -314,7 +314,7 @@ define(function (require, exports, module) {
 
         // Attach to document: add ref & handlers
         this.document = document;
-        this.token = true
+        this.token = true;
         document.addRef();
 
         if (container.jquery) {
@@ -889,16 +889,16 @@ define(function (require, exports, module) {
 
     Editor.prototype.mutualExcluse = function (f, changeList) {
         if (this.token) {
-            this.token = false
+            this.token = false;
             try {
-                f(changeList)
+                f(changeList);
             } catch (e) {
-            this.token = true
-            throw new Error(e)
+            this.token = true;
+            throw new Error(e);
         }
-        this.token = true
+        this.token = true;
       }
-    }
+    };
     /**
      * Responds to changes in the CodeMirror editor's text, syncing the changes to the Document.
      * There are several cases where we want to ignore a CodeMirror change:
