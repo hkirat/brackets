@@ -352,10 +352,13 @@ define([
                         _state.autoUpdate = data.autoUpdate;
                     } else if (eventName === "CodeMirrorChange") {
                         if (window.TogetherJS.running) {
-                            window.TogetherJS.send({
-                              type: 'data',
-                              delta: data.delta
-                            });
+                            var deltas = data.delta;
+                            for(var i = 0; i<deltas.length; i++) {
+                                window.TogetherJS.send({
+                                    type: 'data',
+                                    delta: deltas[i]
+                                });
+                            }
                         }
                     }
                     debug("triggering remote event", eventName, data);
