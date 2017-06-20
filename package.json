@@ -65,7 +65,7 @@
         "localize": "node scripts/properties2js",
         "localize-dist": "node scripts/properties2js dist",
         "unlocalize": "rimraf src/nls && git checkout -- src/nls",
-        "postinstall": "grunt install",
+        "postinstall": "grunt install && npm run build",
         "build": "grunt build-browser",
         "preproduction": "grunt build-browser-compressed && npm run unlocalize",
         "production": "npm start -- --gzip",
