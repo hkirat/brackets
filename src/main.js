@@ -40,7 +40,8 @@ require.config({
         "caman"             : "thirdparty/caman/caman.full.min",
         // In various places in the code, it's useful to know if this is a dev vs. prod env.
         // See Gruntfile for prod override of this to config.prod.js.
-        "envConfig"         : "bramble/config/config.dev"
+        "envConfig"         : "bramble/config/config.dev",
+        "simplewebrtc"      : "../node_modules/simplewebrtc/out/simplewebrtc.bundle",
     },
     map: {
         "*": {
